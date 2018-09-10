@@ -8,14 +8,16 @@ public class Welt
     // Bezugsobjekte
 
     // Attribute
-    private int xWert = 5;
-    private int yWert = 5;
+    private int xLaenge = 50;
+    private int yLaenge = 50;
     private Gegenstand[][] weltArray;
+   
     
     // Konstruktor
     public Welt()
     {
-         weltArray = new Gegenstand[xWert][yWert];
+         weltArray = new Gegenstand[xLaenge][yLaenge];
+         weltArray[2][2] = new Schwert(2,2);
     }
 
     // Dienste
