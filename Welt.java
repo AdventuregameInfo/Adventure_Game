@@ -11,6 +11,7 @@ public class Welt
     private int xLaenge = 50;
     private int yLaenge = 50;
     private Gegenstand[][] weltArray;
+ 
    
     
     // Konstruktor
@@ -18,6 +19,8 @@ public class Welt
     {
          weltArray = new Gegenstand[xLaenge][yLaenge];
          weltArray[2][2] = new Schwert(2,2);
+         weltArray[4][4] = new Mensch(4,4,"männlich","Monster");
+         
     }
 
     // Dienste

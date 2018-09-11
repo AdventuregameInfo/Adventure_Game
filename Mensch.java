@@ -3,20 +3,23 @@
  * @author 
  * @version 
  */
-public class Mensch
+public class Mensch extends Gegenstand
 {
     // Bezugsobjekte
 
     // Attribute
+    private String typ;
     private String geschlecht;
     private int hp;
-    private int menschX;
-    private int menschY;
+
+
     
     // Konstruktor
-    public Mensch()
+    public Mensch(int pX,int pY,String pGeschlecht, String pTyp)
     {
-
+        super(pX,pY);
+        geschlecht = pGeschlecht;
+        typ = pTyp;
     }
 
     // Dienste

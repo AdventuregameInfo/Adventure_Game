@@ -36,20 +36,25 @@ public class Spiel
         }
 
         String commandWord = command.getCommandWord();
-        if (commandWord.equals("help")) {
+        if (commandWord.equals("hilfe")) {
             printHelp();
         }
-        else if (commandWord.equals("go")) {
+        else if (commandWord.equals("gehe")) {
             gehe(command);
         }
-        //else if (commandWord.equals("quit")) {
-         //}
+        else if (commandWord.equals("position")) {
+            
+        }
+        else if (commandWord.equals("exit")) {
+            return wantToQuit;
+         }
 
         return wantToQuit;
     }
     private void printHelp(){
-        System.out.println("hilfe!");
-        
+        System.out.println("Du benötigst hilfe?");
+        System.out.println("Es gibt verschiedene kommandos:");
+        System.out.println("hilfe, gehe (richtung), position,");
     }
     private void gehe(Command command){
         if(!command.hasSecondWord()) {
