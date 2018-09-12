@@ -10,15 +10,33 @@ public class Gegenstand
     // Attribute
     private int xKoordinate;
     private int yKoordinate;
-    private int schadenspunkte;
+    private String name;
     
     // Konstruktor
-    public Gegenstand(int pXKoordinate,int pYKoordinate)
+    public Gegenstand(int pXKoordinate,int pYKoordinate,String pName)
     {
         xKoordinate = pXKoordinate;
         yKoordinate = pYKoordinate;
+        name = pName;
     }
 
     // Dienste
-
+    public int getXPosition(){
+        return xKoordinate;
+    }
+    public int getYPosition(){
+        return yKoordinate;
+    }
+    public void setX(int pX){
+        xKoordinate=pX;
+    }
+    public void setY(int pY){
+        yKoordinate=pY;
+    }
+    public String getName(){
+        return name;
+    }
+    public void setName(String pName){
+        name = pName;
+    }
 }

@@ -12,7 +12,7 @@ public class Schwert extends Gegenstand
     // Konstruktor
     public Schwert(int pAnfangsXWert,int pAnfangsYWert)
     {   
-        super(pAnfangsXWert,pAnfangsYWert);
+        super(pAnfangsXWert,pAnfangsYWert,"Schwert");
 
     }
 
