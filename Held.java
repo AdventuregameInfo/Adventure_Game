@@ -31,4 +31,10 @@ public class Held extends Mensch
             default: System.out.println("falsche eingabe");
         }
     }
+    public int getX(){
+        return super.getX();
+    }
+    public int getY(){
+        return super.getY();
+    }
 }

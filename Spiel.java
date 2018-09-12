@@ -45,7 +45,7 @@ public class Spiel
             gehe(command);
         }
         else if (commandWord.equals("position")) {
-            System.out.println("Du bist jetzt auf der Position (" + held.getX() + "|" + held.getY());
+            System.out.println("Du bist jetzt auf der Position (" + held.getX() + "|" + held.getY() + ").");
         }
         else if (commandWord.equals("exit")) {
             return wantToQuit;
@@ -64,45 +64,46 @@ public class Spiel
             return;
         }
         String richtung = command.getSecondWord();
-        if(command.getSecondWord()=="oben"){
-            if(!wandVorhanden(command.getSecondWord()))
-                held.gehe(command.getSecondWord());
+        if(richtung.equals("oben")){
+            if(!wandVorhanden("oben"))
+                held.gehe("oben");
                 
         }
-        else if(command.getSecondWord()=="unten"){
-            if(!wandVorhanden(command.getSecondWord()))
-                held.gehe(command.getSecondWord());
+        else if(richtung.equals("unten")){
+            if(!wandVorhanden("unten"))
+                held.gehe("unten");
                 
         }
-        else if(command.getSecondWord()=="rechts"){
-            if(!wandVorhanden(command.getSecondWord()))
-                held.gehe(command.getSecondWord());
+        else if(richtung.equals("rechts")){
+            if(!wandVorhanden("rechts"))
+                held.gehe("rechts");
                 
         }
-        else if(command.getSecondWord()=="links"){
-            if(!wandVorhanden(command.getSecondWord()))
-                held.gehe(command.getSecondWord());
-                
-        }
+        else if(richtung.equals("links")){
+            if(!wandVorhanden("links"))
+                held.gehe("links");
+        }else {System.out.println(command.getSecondWord());}
+        
     }
     private boolean wandVorhanden(String pRichtung){
        int x=held.getX();
        int y=held.getY();
+       boolean vorhanden = false;
        switch (pRichtung){
-            case "oben":if(welt.weltArray[x][y-1].getName() != "Wand")
-                            return false;
+            case "oben":if(welt.weltArray[x][y-1].getName() == "Wand")
+                            vorhanden = true;
                         break;
-            case "unten":if(welt.weltArray[x][y+1].getName() != "Wand")
-                            return false;
+            case "unten":if(welt.weltArray[x][y+1].getName() == "Wand")
+                            vorhanden = true;
                          break;
-            case "rechts":if(welt.weltArray[x+1][y].getName() != "Wand")
-                            return false;
+            case "rechts":if(welt.weltArray[x+1][y].getName() == "Wand")
+                            vorhanden = true;
                           break;  
-            case "links":if(welt.weltArray[x-1][y].getName() != "Wand")
-                            return false;
+            case "links":if(welt.weltArray[x-1][y].getName() =="Wand")
+                            vorhanden = true;
                          break;
-            default: return true;
+            default: vorhanden = false;
         }
-       return true;
+       return vorhanden;
     }
 }
