@@ -20,6 +20,7 @@ public class Welt
          weltArray = new Gegenstand[xLaenge][yLaenge];
          weltArray[2][2] = new Schwert(2,2);
          weltArray[4][4] = new Mensch(4,4,"männlich","Monster",10);
+         weltArray[0][0] = new Wand(0,0);
          
     }
 
