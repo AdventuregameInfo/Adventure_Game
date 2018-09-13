@@ -67,43 +67,45 @@ public class Spiel
         if(richtung.equals("oben")){
             if(!wandVorhanden("oben"))
                 held.gehe("oben");
+            else{wandDa();}
                 
         }
         else if(richtung.equals("unten")){
             if(!wandVorhanden("unten"))
                 held.gehe("unten");
-                
+            else{wandDa();} 
         }
         else if(richtung.equals("rechts")){
             if(!wandVorhanden("rechts"))
                 held.gehe("rechts");
-                
+            else{wandDa();}    
         }
         else if(richtung.equals("links")){
             if(!wandVorhanden("links"))
                 held.gehe("links");
-        }else {System.out.println(command.getSecondWord());}
+            else{wandDa();}
+        }
         
     }
     private boolean wandVorhanden(String pRichtung){
        int x=held.getX();
        int y=held.getY();
        boolean vorhanden = false;
-       switch (pRichtung){
-            case "oben":if(welt.weltArray[x][y-1].getName() == "Wand")
-                            vorhanden = true;
-                        break;
-            case "unten":if(welt.weltArray[x][y+1].getName() == "Wand")
-                            vorhanden = true;
-                         break;
-            case "rechts":if(welt.weltArray[x+1][y].getName() == "Wand")
-                            vorhanden = true;
-                          break;  
-            case "links":if(welt.weltArray[x-1][y].getName() =="Wand")
-                            vorhanden = true;
-                         break;
-            default: vorhanden = false;
-        }
+       
+           if(welt.weltArray[x][y-1] == null || welt.weltArray[x][y-1].getName() != "Wand" && pRichtung =="oben")
+                            vorhanden = false;
+           else if(welt.weltArray[x][y+1] != null || welt.weltArray[x][y+1].getName() != "Wand" && pRichtung =="unten")
+                            vorhanden = false;
+           else if(welt.weltArray[x+1][y] != null || welt.weltArray[x+1][y].getName() != "Wand" && pRichtung =="rechts")
+                            vorhanden = false;
+           else if(welt.weltArray[x-1][y] != null || welt.weltArray[x-1][y].getName() != "Wand" && pRichtung =="links")
+                            vorhanden = false;
+           else{vorhanden = true;}
+        
+      
        return vorhanden;
+    }
+    public void wandDa(){
+        System.out.println("Du bist auf eine Wand gestoßen!");
     }
 }

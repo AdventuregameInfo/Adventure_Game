@@ -21,6 +21,7 @@ public class Mensch extends Gegenstand
         super(pX,pY,"Mensch");
         geschlecht = pGeschlecht;
         typ = pTyp;
+        hp = 100;
         schadenspunkte = pSchadenspunkte;
     }
 

@@ -21,12 +21,16 @@ public class Held extends Mensch
     public void gehe(String pRichtung){
         switch (pRichtung){
             case "oben":super.setY(super.getY()-1);
+                        System.out.println("du bist nach oben gegangen");
                         break;
             case "rechts":super.setX(super.getX()+1);
+                        System.out.println("du bist nach rechts gegangen");
                         break;
             case "unten":super.setY(super.getY()+1);
+                        System.out.println("du bist nach unten gegangen");
                         break; 
             case "links":super.setX(super.getX()-1);
+                        System.out.println("du bist nach links gegangen");
                         break;
             default: System.out.println("falsche eingabe");
         }
