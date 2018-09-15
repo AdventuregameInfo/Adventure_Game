@@ -8,12 +8,14 @@ public class Held extends Mensch
     // Bezugsobjekte
 
     // Attribute
+    public Gegenstand[] inventar = new Gegenstand[5];
     
     
     // Konstruktor
     public Held(int pX,int pY,String pGeschlecht, String pTyp, int pSchadenspunkte)
     {
         super(pX,pY,pGeschlecht,pTyp,pSchadenspunkte);
+         
     }
 
     // Dienste
@@ -40,5 +42,19 @@ public class Held extends Mensch
     }
     public int getY(){
         return super.getY();
+    }
+    public void getInventar(){
+        System.out.println("In ihrem Inventar liegen : ");
+        for(int i=0;i<5;i++){
+            if(inventar[i]==null){
+                System.out.println("leer , ");
+            }else{
+                System.out.println(inventar[i].getName() + " , ");
+            }
+            
+        }
+    }
+    public void setInventar(int pIndex,Gegenstand pGegenstand){
+        inventar[pIndex] = pGegenstand;
     }
 }

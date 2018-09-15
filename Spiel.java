@@ -17,11 +17,18 @@ public class Spiel
             parser = new Parser();
             welt = new Welt();
             held = new Held(25,25,"männlich","Held",15);
+
     }
 
     // Dienste
+    public static void main(String[] args){
+        Spiel spiel1 = new Spiel();
+        spiel1.play();
+    }
     public void play(){
         boolean fertig = false;
+        System.out.println("Wilkommen im Adventure Game!");
+        System.out.println("Falls du Hilfe benötigst schreibe einfach ,hilfe, ");
         while(!fertig){
             Command command = parser.getCommand();
             fertig = processCommand(command);
@@ -49,14 +56,16 @@ public class Spiel
         }
         else if (commandWord.equals("exit")) {
             return wantToQuit;
-         }
+        }else if (commandWord.equals("inventar")) {
+            held.getInventar();
+        }
 
         return wantToQuit;
     }
     private void printHelp(){
         System.out.println("Du benötigst hilfe?");
         System.out.println("Es gibt verschiedene kommandos:");
-        System.out.println("hilfe, gehe (richtung), position,");
+        System.out.println("hilfe, gehe (richtung), position, inventar");
     }
     private void gehe(Command command){
         if(!command.hasSecondWord()) {
@@ -92,13 +101,13 @@ public class Spiel
        int y=held.getY();
        boolean vorhanden = false;
        
-           if(welt.weltArray[x][y-1] == null || welt.weltArray[x][y-1].getName() != "Wand" && pRichtung =="oben")
+           if(pRichtung =="oben" && welt.weltArray[x][y-1].getName() == "Weg")
                             vorhanden = false;
-           else if(welt.weltArray[x][y+1] != null || welt.weltArray[x][y+1].getName() != "Wand" && pRichtung =="unten")
+           else if(pRichtung =="unten" && welt.weltArray[x][y+1].getName() == "Weg")
                             vorhanden = false;
-           else if(welt.weltArray[x+1][y] != null || welt.weltArray[x+1][y].getName() != "Wand" && pRichtung =="rechts")
+           else if(pRichtung =="rechts" && welt.weltArray[x+1][y].getName() == "Weg")
                             vorhanden = false;
-           else if(welt.weltArray[x-1][y] != null || welt.weltArray[x-1][y].getName() != "Wand" && pRichtung =="links")
+           else if(pRichtung =="links" && welt.weltArray[x-1][y].getName() == "Weg")
                             vorhanden = false;
            else{vorhanden = true;}
         

@@ -18,10 +18,17 @@ public class Welt
     public Welt()
     {
          weltArray = new Gegenstand[xLaenge][yLaenge];
+         for(int i=0;i<50;i++){
+                for(int z=0;z<50;z++){
+                    weltArray[i][z] = new Weg(i,z);
+                }
+            }
          weltArray[2][2] = new Schwert(2,2);
          weltArray[4][4] = new Mensch(4,4,"männlich","Monster",10);
-         weltArray[24][24] = new Wand(24,24);
-    }
+         
+         
+         
+             }
 
     // Dienste
 
