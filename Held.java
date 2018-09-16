@@ -23,16 +23,16 @@ public class Held extends Mensch
     public void gehe(String pRichtung){
         switch (pRichtung){
             case "oben":super.setY(super.getY()-1);
-                        System.out.println("du bist nach oben gegangen");
+                        //System.out.println("du bist nach oben gegangen");
                         break;
             case "rechts":super.setX(super.getX()+1);
-                        System.out.println("du bist nach rechts gegangen");
+                        //System.out.println("du bist nach rechts gegangen");
                         break;
             case "unten":super.setY(super.getY()+1);
-                        System.out.println("du bist nach unten gegangen");
+                        //System.out.println("du bist nach unten gegangen");
                         break; 
             case "links":super.setX(super.getX()-1);
-                        System.out.println("du bist nach links gegangen");
+                        //System.out.println("du bist nach links gegangen");
                         break;
             default: System.out.println("falsche eingabe");
         }
@@ -56,5 +56,15 @@ public class Held extends Mensch
     }
     public void setInventar(int pIndex,Gegenstand pGegenstand){
         inventar[pIndex] = pGegenstand;
+    }
+    public int getInventarNaechsterSlot(){
+        int ergebniss = 0;
+        for(int i=0;i<inventar.length;i++){
+            if(inventar[i]==null){
+                ergebniss = i;
+                return ergebniss;
+            }
+        }
+        return ergebniss;
     }
 }
