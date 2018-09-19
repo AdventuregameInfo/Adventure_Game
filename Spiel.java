@@ -88,7 +88,7 @@ public class Spiel
     private void printHelp(){
         System.out.println("Du benötigst hilfe?");
         System.out.println("Es gibt verschiedene kommandos:");
-        System.out.println("hilfe, gehe (richtung), position, inventar");
+        System.out.println("hilfe, gehe (oben,unten,links,rechts), position, inventar, itemabgeben (index)");
     }
     private void gehe(Command command){
 
@@ -157,20 +157,13 @@ public class Spiel
         boolean ergebniss = false;
         int x=pX;
         int y=pY;
-        if(welt.weltArray[x][y].getName() == "Schwert"){//^ welt.weltArray[x][y-1].getName() == "Schwert"
-            ergebniss = true;
-        }else{
-            ergebniss = false;
-        }
         
-        return ergebniss;
-    }
-    private Gegenstand welchesItem(){
-        Gegenstand ergebniss = new Schwert(0,0);
-        int x=held.getX();
-        int y=held.getY();
-        if(itemVorhanden(x,y))ergebniss = welt.weltArray[x][y];
-        welt.weltArray[x][y] = new Weg(x,y);
+        switch(welt.weltArray[x][y].getName()){
+            case "Schwert":ergebniss = true;
+                           break;
+            default:       ergebniss = false;
+                           break;
+        }
         return ergebniss;
     }
     private void itemAktion(){
@@ -183,7 +176,8 @@ public class Spiel
     private void itemAufsammeln(){
         int x=held.getX();
         int y=held.getY();
-        held.setInventar(held.getInventarNaechsterSlot(),welchesItem());
+        held.setInventar(held.getInventarNaechsterSlot(),welt.weltArray[x][y]);
+        welt.weltArray[x][y] = new Weg(x,y);
     }
     private void villagerText(){
         System.out.println("ich bin ein villager und du kannst hier nicht durch");
@@ -192,10 +186,18 @@ public class Spiel
         int x=held.getX();
         int y=held.getY();
         Gegenstand container;
+        String typ;
         if(!itemVorhanden(x,y)){
             container = held.inventar[pIndex];
-            
-            held.inventar[pIndex] = null;
+            switch(container.getName()){
+                case "Schwert":welt.weltArray[x][y] = new Schwert(x,y);
+                                break;
+                default:    System.out.println("Es ist ein Fehler aufgetreten!");
+                                break;
+            }
+           held.inventar[pIndex] = null;
+        }else{
+            System.out.println("Hier liegt bereits ein item!");
         }
     }
 }

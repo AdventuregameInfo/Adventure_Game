@@ -9,7 +9,7 @@ public class Held extends Mensch
 
     // Attribute
     public Gegenstand[] inventar = new Gegenstand[5];
-    
+    public Gegenstand hand;
     
     // Konstruktor
     public Held(int pX,int pY,String pGeschlecht, String pTyp, int pSchadenspunkte)
@@ -66,5 +66,11 @@ public class Held extends Mensch
             }
         }
         return ergebniss;
+    }
+    public Gegenstand getHand(){
+        return hand;
+    }
+    public void setHand(Gegenstand pGegenstand){
+        hand = pGegenstand;
     }
 }
