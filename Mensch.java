@@ -18,7 +18,7 @@ public class Mensch extends Gegenstand
     // Konstruktor
     public Mensch(int pX,int pY,String pGeschlecht, String pTyp, int pSchadenspunkte)
     {
-        super(pX,pY,"Mensch");
+        super(pX,pY,"Mensch","Mensch");
         geschlecht = pGeschlecht;
         typ = pTyp;
         hp = 100;

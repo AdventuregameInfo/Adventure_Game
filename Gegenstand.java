@@ -11,13 +11,15 @@ public class Gegenstand
     private int xKoordinate;
     private int yKoordinate;
     private String name;
+    private String typ;
     
     // Konstruktor
-    public Gegenstand(int pXKoordinate,int pYKoordinate,String pName)
+    public Gegenstand(int pXKoordinate,int pYKoordinate,String pName,String pTyp)
     {
         xKoordinate = pXKoordinate;
         yKoordinate = pYKoordinate;
         name = pName;
+        typ = pTyp;
     }
 
     // Dienste
@@ -38,5 +40,11 @@ public class Gegenstand
     }
     public void setName(String pName){
         name = pName;
+    }
+    public String getTyp(){
+        return typ;
+    }
+    public void setTyp(String pTyp){
+        typ=pTyp;
     }
 }

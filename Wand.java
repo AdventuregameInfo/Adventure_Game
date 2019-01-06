@@ -10,12 +10,12 @@ public class Wand extends Gegenstand
     // Attribute
     
     // Konstruktor
-    public Wand(int pX,int pY)
+    public Wand(int pX,int pY, String pTyp)
     {
-        super(pX,pY,"Wand");
+        super(pX,pY,"Wand",pTyp);
+       
     }
 
     // Dienste
     
-
 }

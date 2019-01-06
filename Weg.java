@@ -9,7 +9,7 @@ public class Weg extends Gegenstand
 {
     // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
     private int x;
-
+ 
     /**
      * Konstruktor für Objekte der Klasse Weg
      */
@@ -17,9 +17,9 @@ public class Weg extends Gegenstand
     {
         // Instanzvariable initialisieren
    
-        super(pX,pY,"Weg");
+        super(pX,pY,"Weg","Weg");
     
     }
 
-    
+
 }

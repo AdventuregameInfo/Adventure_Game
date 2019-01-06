@@ -77,11 +77,15 @@ public class Spiel
                     return wantToQuit;
                 }
                 String pIndex = command.getSecondWord();
-                int index = Integer.parseInt(pIndex);
+                int index = Integer.parseInt(pIndex) -1;
                 if(held.inventar[index]!=null){
                     itemAbgeben(index);
+                }else{
+                    System.out.println("An dieser Stelle haben sie kein Item!");
                 }
-            };
+            }else{
+                System.out.println("Ihr Inventar ist Leer!");
+            }
         }
         return wantToQuit;
     }
@@ -101,25 +105,25 @@ public class Spiel
             if(!wandVorhanden("oben")){
                 held.gehe("oben");
                 }
-            else{wandDa();}
+            else{wandDa("oben");}
         }
         else if(richtung.equals("unten")){
             if(!wandVorhanden("unten")){
                 held.gehe("unten");
                 }
-            else{wandDa();} 
+            else{wandDa("unten");} 
         }
         else if(richtung.equals("rechts")){
             if(!wandVorhanden("rechts")){
                 held.gehe("rechts");
                 }
-            else{wandDa();}    
+            else{wandDa("rechts");}    
         }
         else if(richtung.equals("links")){
             if(!wandVorhanden("links")){
                 held.gehe("links");
                 }
-            else{wandDa();}
+            else{wandDa("links");}
         }
         
     }
@@ -138,20 +142,24 @@ public class Spiel
                             vorhanden = false;
        else{                
                             if(welt.weltArray[x][y-1].getName() == "Mensch" ^ welt.weltArray[x][y+1].getName() == "Mensch" ^ welt.weltArray[x+1][y].getName() == "Mensch" ^ welt.weltArray[x-1][y].getName() == "Mensch")
-                                         villagerText();
+                                         //villagerText();
                             vorhanden = true;
         }
         
       
        return vorhanden;
     }
-    private void wandDa(){
+    private void wandDa(String pRichtung){
         int x=held.getX();
         int y=held.getY();
         if(welt.weltArray[x][y-1].getName() == "Mensch" ^ welt.weltArray[x][y+1].getName() == "Mensch" ^ welt.weltArray[x+1][y].getName() == "Mensch" ^ welt.weltArray[x-1][y].getName() == "Mensch"){
-                    return;
+                    
+            return;
         }
-        System.out.println("Du bist auf eine Wand gestoßen!");
+        if(pRichtung =="oben")System.out.println("Du bist auf eine "+welt.weltArray[x][y-1].getTyp()+" gestoßen!");
+        if(pRichtung =="unten")System.out.println("Du bist auf eine "+welt.weltArray[x][y+1].getTyp()+" gestoßen!");
+        if(pRichtung =="links")System.out.println("Du bist auf eine "+welt.weltArray[x-1][y].getTyp()+" gestoßen!");
+        if(pRichtung =="rechts")System.out.println("Du bist auf eine "+welt.weltArray[x+1][y-1].getTyp()+" gestoßen!");
     }
     private boolean itemVorhanden(int pX,int pY){
         boolean ergebniss = false;
@@ -179,9 +187,7 @@ public class Spiel
         held.setInventar(held.getInventarNaechsterSlot(),welt.weltArray[x][y]);
         welt.weltArray[x][y] = new Weg(x,y);
     }
-    private void villagerText(){
-        System.out.println("ich bin ein villager und du kannst hier nicht durch");
-    }
+    
     private void itemAbgeben(int pIndex){
         int x=held.getX();
         int y=held.getY();
@@ -190,7 +196,8 @@ public class Spiel
         if(!itemVorhanden(x,y)){
             container = held.inventar[pIndex];
             switch(container.getName()){
-                case "Schwert":welt.weltArray[x][y] = new Schwert(x,y);
+                case "Schwert":welt.weltArray[x][y] = new Schwert(x,y,"Schwert");
+                               System.out.println("Sie haben ein Schwert an die stelle (" + held.getX() +","+ held.getY() +") abgelegt");
                                 break;
                 default:    System.out.println("Es ist ein Fehler aufgetreten!");
                                 break;

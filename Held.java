@@ -45,11 +45,13 @@ public class Held extends Mensch
     }
     public void getInventar(){
         System.out.println("In ihrem Inventar liegen : ");
+        int inv=0;
         for(int i=0;i<5;i++){
+            inv++;
             if(inventar[i]==null){
-                System.out.println("leer , ");
+                System.out.println("("+inv+") "+ "leer , ");
             }else{
-                System.out.println(inventar[i].getName() + " , ");
+                System.out.println("("+inv+") " + inventar[i].getName() + " , ");
             }
             
         }
@@ -73,4 +75,5 @@ public class Held extends Mensch
     public void setHand(Gegenstand pGegenstand){
         hand = pGegenstand;
     }
+    
 }
