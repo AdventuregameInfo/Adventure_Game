@@ -11,13 +11,14 @@ public class Spiel
     private Parser parser;
     private Welt welt;
     private Held held;
+    private Kampf kampf;
     // Konstruktor
     public Spiel()
     {
             parser = new Parser();
             welt = new Welt();
             held = new Held(25,25,"männlich","Held",15);
-
+            kampf = new Kampf();
     }
 
     // Dienste
@@ -87,6 +88,16 @@ public class Spiel
                 System.out.println("Ihr Inventar ist Leer!");
             }
         }
+        else if (commandWord.equals("attacke")){ //&& kampf.getKampfAktiv()) {
+            if(!command.hasSecondWord()){
+                    System.out.println("Welche Attacke willst du ausführen?");
+                    return wantToQuit;
+                }
+            String pAttacke = command.getSecondWord();
+            int attackeNr = Integer.parseInt(pAttacke);
+            kampf.attacke(held,attackeNr);
+        }
+        
         return wantToQuit;
     }
     private void printHelp(){
