@@ -88,15 +88,13 @@ public class Spiel
                 System.out.println("Ihr Inventar ist Leer!");
             }
         }
-        else if (commandWord.equals("attacke")){ //&& kampf.getKampfAktiv()) {
-            if(!command.hasSecondWord()){
-                    System.out.println("Welche Attacke willst du ausführen?");
-                    return wantToQuit;
-                }
-            String pAttacke = command.getSecondWord();
-            int attackeNr = Integer.parseInt(pAttacke);
-            kampf.attacke(held,attackeNr);
-        }
+        // else if (commandWord.equals("kaempfen")){ //&& kampf.getKampfAktiv()) {
+            // if(welt.weltArray[held.getX()+1][held.getY()]!= null && welt.weltArray[held.getX()+1][held.getY()].getTyp() == "Monster")kampf.kaempfen(held,welt.weltArray[(held.getX()+1)][held.getY()]);
+            // else if(welt.weltArray[held.getX()-1][held.getY()]!= null && welt.weltArray[held.getX()-1][held.getY()].getTyp() == "Monster")kampf.kaempfen(held,welt.weltArray[(held.getX()-1)][held.getY()]);
+            // else if(welt.weltArray[held.getX()][held.getY()+1]!= null && welt.weltArray[held.getX()][held.getY()+1].getTyp() == "Monster")kampf.kaempfen(held,welt.weltArray[(held.getX())][held.getY()+1]);
+            // else if(welt.weltArray[held.getX()][held.getY()-1]!= null && welt.weltArray[held.getX()][held.getY()-1].getTyp() == "Monster")kampf.kaempfen(held,welt.weltArray[(held.getX())][held.getY()-1]);
+        
+        // }
         
         return wantToQuit;
     }
@@ -156,21 +154,22 @@ public class Spiel
                                          //villagerText();
                             vorhanden = true;
         }
-        
-      
+       
        return vorhanden;
     }
     private void wandDa(String pRichtung){
         int x=held.getX();
         int y=held.getY();
-        if(welt.weltArray[x][y-1].getName() == "Mensch" ^ welt.weltArray[x][y+1].getName() == "Mensch" ^ welt.weltArray[x+1][y].getName() == "Mensch" ^ welt.weltArray[x-1][y].getName() == "Mensch"){
-                    
-            return;
-        }
         if(pRichtung =="oben")System.out.println("Du bist auf eine "+welt.weltArray[x][y-1].getTyp()+" gestoßen!");
-        if(pRichtung =="unten")System.out.println("Du bist auf eine "+welt.weltArray[x][y+1].getTyp()+" gestoßen!");
-        if(pRichtung =="links")System.out.println("Du bist auf eine "+welt.weltArray[x-1][y].getTyp()+" gestoßen!");
-        if(pRichtung =="rechts")System.out.println("Du bist auf eine "+welt.weltArray[x+1][y-1].getTyp()+" gestoßen!");
+        else if(pRichtung =="unten")System.out.println("Du bist auf eine "+welt.weltArray[x][y+1].getTyp()+" gestoßen!");
+        else if(pRichtung =="links")System.out.println("Du bist auf eine "+welt.weltArray[x-1][y].getTyp()+" gestoßen!");
+        else if(pRichtung =="rechts")System.out.println("Du bist auf eine "+welt.weltArray[x+1][y-1].getTyp()+" gestoßen!");
+        if(welt.weltArray[x][y-1].getTyp() == "Monster")kampf.kaempfen("oben");
+        else if(welt.weltArray[x][y+1].getTyp() == "Monster")kampf.kaempfen("unten");
+        else if(welt.weltArray[x+1][y].getTyp() == "Monster")kampf.kaempfen("rechts");
+        else if(welt.weltArray[x-1][y].getTyp() == "Monster")kampf.kaempfen("links");
+        
+      
     }
     private boolean itemVorhanden(int pX,int pY){
         boolean ergebniss = false;

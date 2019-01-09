@@ -32,8 +32,8 @@ public class Welt
              weltArray[50][i] = new Wand(50,i,"Wand");
             }
          
-             weltArray[25][24] = new Schwert(25,26,"Schwert");
-         //      weltArray[25][24] = new Mensch(25,24,"männlich","Dorfbewohner",10);
+             //weltArray[25][24] = new Schwert(25,26,"Schwert");
+               weltArray[25][24] = new Mensch(25,24,"männlich","Monster",10);
                weltArray[23][25]= new Wand(23,25,"Wand");
                weltArray[24][25]= new Wand(24,25,"Wand");
                weltArray[26][25]= new Wand(26,25,"Wand");
