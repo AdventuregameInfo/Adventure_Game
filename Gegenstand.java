@@ -12,7 +12,8 @@ public class Gegenstand
     private int yKoordinate;
     private String name;
     private String typ;
-    
+    private int hp = 100;
+    private int schadenspunkte = 10;
     // Konstruktor
     public Gegenstand(int pXKoordinate,int pYKoordinate,String pName,String pTyp)
     {
@@ -23,6 +24,12 @@ public class Gegenstand
     }
 
     // Dienste
+    public int getHp(){
+        return hp;
+    }
+    public void setHp(int php){
+        hp=php;
+    }
     public int getXPosition(){
         return xKoordinate;
     }
@@ -46,5 +53,8 @@ public class Gegenstand
     }
     public void setTyp(String pTyp){
         typ=pTyp;
+    }
+    public int getSchadenspunkte(){
+        return schadenspunkte;
     }
 }

@@ -11,18 +11,19 @@ public class Mensch extends Gegenstand
     private String typ;
     private String geschlecht;
     private int hp;
-    private int schadenspunkte;
+   
 
 
     
     // Konstruktor
-    public Mensch(int pX,int pY,String pGeschlecht, String pTyp, int pSchadenspunkte)
+    public Mensch(int pX,int pY,String pGeschlecht, String pTyp)
     {
         super(pX,pY,"Mensch","Mensch");
         geschlecht = pGeschlecht;
         typ = pTyp;
         hp = 100;
-        schadenspunkte = pSchadenspunkte;
+        
+        
     }
 
     // Dienste
@@ -32,12 +33,6 @@ public class Mensch extends Gegenstand
     }
     public void setHp(int pHp){
         hp = pHp;
-    }
-    public int getSchadenspunkte(){
-        return schadenspunkte;
-    }
-    public void setSchadenspunkte(int pSchadenspunkte){
-        schadenspunkte = pSchadenspunkte;
     }
     public String getTyp(){
         return typ;
