@@ -1,6 +1,6 @@
 
 /**
- * @author 
+ * @author tobias
  * @version 
  */
 public class Held extends Mensch
@@ -10,12 +10,12 @@ public class Held extends Mensch
     // Attribute
     public Gegenstand[] inventar = new Gegenstand[5];
     public Gegenstand hand;
-    public int schadenspunkte;
+    
     
     // Konstruktor
-    public Held(int pX,int pY,String pGeschlecht, String pTyp, int pSchadenspunkte)
+    public Held(int pX,int pY,String pGeschlecht, String pTyp)
     {
-        super(pX,pY,pGeschlecht,pTyp);
+        super(pX,pY,pGeschlecht,pTyp, 0);
          
     }
 
@@ -81,19 +81,25 @@ public class Held extends Mensch
     public void setHand(Gegenstand pGegenstand){
         hand = pGegenstand;
     }
-    public int getSchadenspunkte(){
-        return schadenspunkte;
-    }
+    
     public boolean handBesetzt(){
         boolean antwort = false;
         if(hand!=null)antwort = true;
         return antwort;
     }
-    public void setSchadenspunkte(int pSchadenspunkte){
-        schadenspunkte = pSchadenspunkte;
-    }
+    
     public String stringHand(){
         return hand.getName();
+    }
+    public int itemAnWelchemSlot(String suchString){
+        
+        int ergebnis = -1;
+        for(int i=0;i<inventar.length;i++){
+            if(itemvorhanden(i)){
+                if(inventar[i].getTyp()==suchString)ergebnis = i;
+            }
+        }
+        return ergebnis;
     }
     public Gegenstand itemAnIndex(int pIndex){
         return inventar[pIndex];

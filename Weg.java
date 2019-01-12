@@ -17,7 +17,7 @@ public class Weg extends Gegenstand
     {
         // Instanzvariable initialisieren
    
-        super(pX,pY,"Weg","Weg");
+        super(pX,pY,"Weg","Weg",0);
     
     }
 

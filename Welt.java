@@ -1,6 +1,6 @@
 
 /**
- * @author 
+ * @author julius, elias
  * @version 
  */
 public class Welt
@@ -33,10 +33,26 @@ public class Welt
             }
          
              
-               weltArray[24][21] = new Mensch(24,21,"männlich","Monster");
+              
                
              }
-
+             
+             
+        public boolean itemVorhanden(int pX,int pY){
+        boolean ergebniss = false;
+        int x=pX;
+        int y=pY;
+        
+        switch(weltArray[x][y].getName()){
+            case "Schwert":ergebniss = true;
+                           break;
+            case "Boot":   ergebniss = true;
+                           break;
+            default:       ergebniss = false;
+                           break;
+        }
+        return ergebniss;
+    } 
     // Dienste
         public void erstelleWelteins(){
             //x=1
@@ -146,7 +162,7 @@ public class Welt
          weltArray[5][34] = new Wand(5,34,"Fluss");
          weltArray[5][38] = new Wand(5,38,"Fluss");
          weltArray[5][39] = new Wand(5,39,"Fluss");
-         weltArray[5][44] = new Mensch(5,44,"Weiblich","Dorfbewohner");
+         weltArray[5][44] = new Mensch(5,44,"Weiblich","Dorfbewohner",0);
          weltArray[5][45] = new Wand(5,45,"Burgmauer");
          weltArray[5][46] = new Wand(5,46,"Burgmauer");
          //x=7
@@ -311,9 +327,11 @@ public class Welt
          weltArray[23][26] = new Wand(23,26,"Basismauer");
          //x=25
          weltArray[24][1] = new Wand(24,1,"Fels");
-         weltArray[24][20] = new Mensch(24,20,"Männlich","Dorfbewohner");
+         weltArray[24][21] = new Mensch(24,21,"Männlich","Dorfbewohner",0);
+         weltArray[24][22] = new Mensch(24,22,"Männlich","Monster",10);
+         weltArray[24][23] = new Boot(24,23);
          //weltArray[24][22] = new Tuer(24,22);
-         weltArray[24][22] = new Schwert(24,22,"Schwert");
+         weltArray[24][17] = new Schwert(24,22,"Schwert",15);
          weltArray[24][26] = new Wand(24,26,"Basismauer");
          weltArray[24][41] = new Wand(24,41,"Fluss");
          weltArray[24][42] = new Wand(24,42,"Fluss");

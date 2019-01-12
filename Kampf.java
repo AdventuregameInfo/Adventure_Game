@@ -1,7 +1,7 @@
 import java.util.Random;
 /**
- * @author 
- * @version 
+ * @author tobias
+ * @version 0.8
  */
 public class Kampf
 {
@@ -15,7 +15,7 @@ public class Kampf
     private String monsterRichtung ="";
     private Gegenstand[][] pArray;
     private int x,y,hp,monsterHp;
-    
+    public boolean heldlebt =true,gegnerbesiegt = true;
     
 
     // Konstruktor
@@ -37,8 +37,8 @@ public class Kampf
        else if(pRichtung =="rechts"){gegner = pArray[held.getX()+1][held.getY()];}
        else if(pRichtung =="links"){gegner = pArray[held.getX()-1][held.getY()];}
         
-        monsterHp=gegner.getHp();
-        System.out.println("Im näheren Umfeld von einem schritt befindet sich ein Monster. Es will dich angreifen. Du befindest dich im kampfmodus. Falls du nicht weißt was du machen kannst tippe ,hilfe,");
+        //monsterHp=gegner.getHp();
+        System.out.println("Im näheren Umfeld von einem schritt befindet sich ein Monster. Es will dich angreifen.\n"+"Du befindest dich im kampfmodus. Falls du nicht weißt was du machen kannst sind hier die kommandos:\n");
         printHelp();
         while(!kampfFertig){
             Command command = parser.getCommand();
@@ -46,14 +46,10 @@ public class Kampf
         }
         if(held.getHp()<=0){
             System.out.println("Du bist tot");
+            heldlebt = false;
         }
         
     }
-    //public void attacke(Mensch pSpieler,int pNummer){
-     //   if(pNummer ==1)System.out.println("attacke1");
-     //   if(pNummer ==2)System.out.println("attacke2");
-     //   if(pNummer ==3)System.out.println("attacke3");
-    //}
     public boolean processCommand(Command command){
         if(command.isUnknown()) {
             System.out.println("Bitte überprüfen sie die eingabe!");
@@ -79,7 +75,7 @@ public class Kampf
         }else if(commandWord.equals("itemhand")){
                 if(held.handBesetzt()){System.out.println("Ein "+held.stringHand()+" befindet sich in ihrer hand");}
                 else{System.out.println("nichts ist in der hand");}
-            }else if(commandWord.equals("platzierehand")){
+        }else if(commandWord.equals("addhand")){
                 if(command.hasSecondWord()){
                     String pIndex = command.getSecondWord();
                     int index = Integer.parseInt(pIndex)-1;
@@ -90,52 +86,46 @@ public class Kampf
                 }else{
                     System.out.println("aus welchem slot soll das item in die hand gelegt werden?");
                 }
-            }else if (commandWord.equals("inventar")) {
+        }else if (commandWord.equals("inventar")) {
                 held.getInventar();
-            }
+        }else if(commandWord.equals("removehand")){
+                held.inventar[held.getInventarNaechsterSlot()]=held.getHand();
+                held.setHand(null);
+        }
         return kampfFertig;
     }
     public boolean getKampfAktiv(){
         return kampfAktiv;
     }
     public void printHelp(){
-        System.out.println("mit ,Attacken, sehen sie ihre Attacken\n"+"mit ,attacke (nr der attacke), attackieren sie\n"+"mit ,fliehen, fliehen sie vor dem kampf\n"+"mit ,itemhand, überprüfst du, was in deiner hand ist \n"+"mit ,platzierehand (slot), kannst du sach in deine hand platzieren\n"+"mit ,inventar, guckst du in dein inventar");
+        System.out.println("-,Attacken, zeigt deine Attacken\n"+"-,attacke (nr der attacke), ist zum angriff\n"+"-,fliehen, hilft dir beim fliehen vor dem Kampf\n"+"-,itemhand, zeigt dir was du in der Hand hast \n"+"-,addhand (slot aus inventar), platziert ein objekt in deine Hand\n"+"-,inventar, zeigt dir dein Inventar");
     }
     public void kaempfe(int pAttacke){
         int monsterSchaden = 0;
         int heldSchaden = 0;
-        if(held.handBesetzt()){heldSchaden = held.getHand().getSchadenspunkte();
-        }else{System.out.println("Bitte plazieren sie einen Gegenstand aus ihrem inventar in ihre hand!");}
-        if(gegner.getHp()<=0){gegnerTot();return;}
+        
+        
         if(held.getHp()>0){
-            
-                if(pAttacke == 1){
-                    
-                if(monsterRichtung == "oben"){
+            if(monsterRichtung == "oben"){
                     monsterSchaden = zufallsZahl() * pArray[held.getX()][held.getY()-1].getSchadenspunkte();
                 }
-                else if(monsterRichtung == "unten"){
+            else if(monsterRichtung == "unten"){
                     monsterSchaden = zufallsZahl() * pArray[held.getX()][held.getY()+1].getSchadenspunkte();
                 }
-                else if(monsterRichtung == "rechts"){
+            else if(monsterRichtung == "rechts"){
                     monsterSchaden = zufallsZahl() * pArray[held.getX()+1][held.getY()].getSchadenspunkte();
                 }
-                else if(monsterRichtung == "links"){
+            else if(monsterRichtung == "links"){
                     monsterSchaden = zufallsZahl() * pArray[held.getX()-1][held.getY()].getSchadenspunkte();
                 }
-                held.setHp(held.getHp()-monsterSchaden);
-            
-            
-            
-        
+            held.setHp(held.getHp()-monsterSchaden);
+            if(pAttacke == 1){
+                    if(held.handBesetzt())heldSchaden = held.getHand().getSchadenspunkte()*zufallsZahl();
+                    else System.out.println("nicht verfügbar, da kein item in der Hand ist!");
             }
             else if(pAttacke == 2){
-            
-                System.out.println("attacke 2");
-            }
-                System.out.println("Du hast jetzt "+monsterSchaden+" hp weniger");
-                System.out.println("Das Monster hat jetzt "+heldSchaden +" hp weniger");
-            if(pAttacke ==3){
+                    heldSchaden = 7 * zufallsZahl();
+            }else if(pAttacke ==3){
                 held.setHp(0);
             }
         }else{
@@ -143,12 +133,29 @@ public class Kampf
             kampfFertig = true;
             kampfAktiv = false;
         }
+        gegner.setHp(gegner.getHp()-heldSchaden);
+        if(gegner.getHp()<0)gegner.setHp(0);
+        System.out.println("Das Monster hat jetzt nur noch "+gegner.getHp()+" HP. Du hast "+heldSchaden+" HP Schaden gemacht. ");
+        if(gegnerbesiegt==false || gegner.getHp()<=0){
+            kampfFertig = true;
+            kampfAktiv = false;
+            gegnerbesiegt = false;
+            gegnerTot();
+            return;
+        }
+        
+        
+        System.out.println("Du hast jetzt nur noch "+held.getHp()+" HP. Das Monster hat "+monsterSchaden+" HP Schaden gemacht. ");
     }
     public void zeigeAttacken(){
-        System.out.println("Sie haben 2 Attacken zur verfügung ,welche sie benutzen können\n"+"1. Attacke: High kick Schadenspunkte 15\n"+"2. Attacke: Punch Schadenspunkte 9\n");
+        if(held.handBesetzt()){
+            System.out.println("Du hast 2 Attacken zur verfügung: \n"+"1. Attacke: "+held.stringHand()+" Schadenspunkte "+held.hand.getSchadenspunkte()+"\n"+"2. Attacke: Punch Schadenspunkte 7\n");
+        }else{
+            System.out.println("Du hast 2 Attacken zur verfügung: \n"+"1. Attacke: nicht verfügbar, da nix in der hand ist \n"+"2. Attacke: Punch Schadenspunkte 7\n");
+        }  
     }
     public void gegnerTot(){
-        System.out.println("Du hast dein Gegner besiegt. Hast jedoch nur noch "+held.getHp()+" hp. Nimm dich lieber in acht!");
+        System.out.println("Du hast dein Gegner besiegt. Hast jedoch nur noch "+held.getHp()+" hp. Nimm dich lieber in acht! Du kannst jetzt weitergehen.");
     }
     public int zufallsZahl(){
         int randomNum = new Random().nextInt(3);

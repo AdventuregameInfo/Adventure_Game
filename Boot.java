@@ -15,7 +15,7 @@ public class Boot extends Gegenstand
      */
     public Boot(int pAnfangsXWert,int pAnfangsYWert)
     {   
-        super(pAnfangsXWert,pAnfangsYWert,"Boot","Boot");
+        super(pAnfangsXWert,pAnfangsYWert,"Boot","Boot",0);
 
     }
 

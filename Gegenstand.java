@@ -1,6 +1,6 @@
 
 /**
- * @author 
+ * @author tobias
  * @version 
  */
 public class Gegenstand
@@ -13,14 +13,15 @@ public class Gegenstand
     private String name;
     private String typ;
     private int hp = 100;
-    private int schadenspunkte = 10;
+    private int schadenspunkte;
     // Konstruktor
-    public Gegenstand(int pXKoordinate,int pYKoordinate,String pName,String pTyp)
+    public Gegenstand(int pXKoordinate,int pYKoordinate,String pName,String pTyp,int pSchadenspunkte)
     {
         xKoordinate = pXKoordinate;
         yKoordinate = pYKoordinate;
         name = pName;
         typ = pTyp;
+        schadenspunkte = pSchadenspunkte;
     }
 
     // Dienste

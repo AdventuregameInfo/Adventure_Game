@@ -1,7 +1,7 @@
 
 /**
- * @author 
- * @version 
+ * @author tobias 
+ * @version 0.7
  */
 public class Spiel
 {
@@ -12,12 +12,13 @@ public class Spiel
     private Welt welt;
     private Held held;
     private Kampf kampf;
+    private int villagerNummer=1;
     // Konstruktor
     public Spiel()
     {
             parser = new Parser();
             welt = new Welt();
-            held = new Held(24,24,"männlich","Held",15);
+            held = new Held(24,24,"männlich","Held");
             kampf = new Kampf();
             welt.erstelleWelteins();
     }
@@ -32,16 +33,18 @@ public class Spiel
         System.out.println("Wilkommen im Adventure Game!");
         System.out.println("Falls du Hilfe benötigst schreibe einfach ,hilfe, ");
         while(!fertig){
+            if(!kampf.heldlebt){fertig = true;break;}
             Command command = parser.getCommand();
             fertig = processCommand(command);
         }
-        System.out.println("Das Spiel ist leider vorbei! Bis zum nächsten mal.");
+        System.out.print('\u000C');
+        System.out.println("Du bist gestorben, somit ist das Spiel leider vorbei! Bis zum nächsten mal.");
         System.out.println("created by \n"+"Julius M. \n"+"Elias F. \n"+ "Tobias H.");
     }
     private boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
-        if(held.getHp()>=0){
+            if(!kampf.heldlebt){wantToQuit = true; return wantToQuit;}else{
             if(command.isUnknown()) {
                 System.out.println("I don't know what you mean...");
                 return false;
@@ -56,7 +59,7 @@ public class Spiel
                 gehe(command);
                 int z=held.getX();
                 int t=held.getY();
-                if(itemVorhanden(z,t))itemAktion();
+                if(welt.itemVorhanden(z,t))itemAktion();
             }
             else if (commandWord.equals("position")) {
                 System.out.println("Du bist jetzt auf der Position (" + held.getX() + "|" + held.getY() + ").");
@@ -67,10 +70,10 @@ public class Spiel
             else if (commandWord.equals("inventar")) {
                 held.getInventar();
             }
-            else if(commandWord.equals("ja") && itemVorhanden(x,y)) {
+            else if(commandWord.equals("ja") && welt.itemVorhanden(x,y)) {
                 itemAufsammeln();
             }
-            else if (commandWord.equals("nein") && itemVorhanden(x,y)) {
+            else if (commandWord.equals("nein") && welt.itemVorhanden(x,y)) {
                 System.out.println("Schade! Das Item wird weiterhinn hier liegenbleiben!");
             }
             else if (commandWord.equals("itemabgeben")) {
@@ -100,38 +103,36 @@ public class Spiel
             }else if(commandWord.equals("itemhand")){
                 if(held.handBesetzt()){System.out.println("Ein "+held.stringHand()+" befindet sich in ihrer hand");}
                 else{System.out.println("nichts ist in der hand");}
-            }else if(commandWord.equals("platzierehand")){
+            }else if(commandWord.equals("addhand")){
                 if(command.hasSecondWord()){
                     String pIndex = command.getSecondWord();
                     int index = Integer.parseInt(pIndex)-1;
-                    if(held.itemvorhanden(index)){
-                        held.setHand(held.itemAnIndex(index));
+                    if(index>=0){
+                        if(held.itemvorhanden(index)){
+                            held.setHand(held.itemAnIndex(index));
+                            held.inventar[held.itemAnWelchemSlot(held.getHand().getTyp())] = null;
+                        }
+                        System.out.println("Ein "+held.stringHand()+" befindet sich in ihrer hand");
                     }
-                    System.out.println("Ein "+held.stringHand()+" befindet sich in ihrer hand");
                 }else{
                     System.out.println("aus welchem slot soll das item in die hand gelegt werden?");
                 }
+            }else if(commandWord.equals("removehand")){
+                held.inventar[held.getInventarNaechsterSlot()]=held.getHand();
+                held.setHand(null);
             }
-        // else if (commandWord.equals("kaempfen")){ //&& kampf.getKampfAktiv()) {
-            // if(welt.weltArray[held.getX()+1][held.getY()]!= null && welt.weltArray[held.getX()+1][held.getY()].getTyp() == "Monster")kampf.kaempfen(held,welt.weltArray[(held.getX()+1)][held.getY()]);
-            // else if(welt.weltArray[held.getX()-1][held.getY()]!= null && welt.weltArray[held.getX()-1][held.getY()].getTyp() == "Monster")kampf.kaempfen(held,welt.weltArray[(held.getX()-1)][held.getY()]);
-            // else if(welt.weltArray[held.getX()][held.getY()+1]!= null && welt.weltArray[held.getX()][held.getY()+1].getTyp() == "Monster")kampf.kaempfen(held,welt.weltArray[(held.getX())][held.getY()+1]);
-            // else if(welt.weltArray[held.getX()][held.getY()-1]!= null && welt.weltArray[held.getX()][held.getY()-1].getTyp() == "Monster")kampf.kaempfen(held,welt.weltArray[(held.getX())][held.getY()-1]);
-        
-        // }
-    }else{
-        wantToQuit = true;
-        return wantToQuit;
-    }
+        }
         return wantToQuit;
     }
     private void printHelp(){
         System.out.println("Du benötigst hilfe?");
         System.out.println("Es gibt verschiedene kommandos:");
-        System.out.println("hilfe, gehe (oben,unten,links,rechts), position, inventar, itemabgeben (index)");
+        System.out.println("-,hilfe, \n"+"-,gehe (oben,unten,links,rechts),\n"+ "-,position, \n"+"-,inventar, \n"+"-,itemabgeben (index),\n"+"-,itemhand,\n"+"-,addhand (slot aus dem inventar), \n"+"-,removehand");
     }
     private void gehe(Command command){
-
+        if(welt.itemVorhanden(held.getX(),held.getY())){
+            welt.weltArray[held.getX()][held.getY()] = new Weg(held.getX(),held.getY());
+        }
         if(!command.hasSecondWord()) {
             System.out.println("welche Richtung?");
             return;
@@ -161,26 +162,13 @@ public class Spiel
                 }
             else{wandDa("links");}
         }
+        System.out.println("Du bist jetzt auf der Position (" + held.getX() + "|" + held.getY() + ").");
         
     }
     private boolean wandVorhanden(String pRichtung){
        int x=held.getX();
        int y=held.getY();
        boolean vorhanden = true;
-       
-       //if(pRichtung =="oben" && welt.weltArray[x][y-1].getName() == "Weg" ^ itemVorhanden(x,y-1))
-       //                     vorhanden = false;
-       //else if(pRichtung =="unten" && welt.weltArray[x][y+1].getName() == "Weg" ^ itemVorhanden(x,y+1))
-       //                     vorhanden = false;
-       //else if(pRichtung =="rechts" && welt.weltArray[x+1][y].getName() == "Weg" ^ itemVorhanden(x+1,y))
-       //                     vorhanden = false;
-       //else if(pRichtung =="links" && welt.weltArray[x-1][y].getName() == "Weg" ^ itemVorhanden(x-1,y))
-       //                     vorhanden = false;
-       //else{                
-       //                     if(welt.weltArray[x][y-1].getName() == "Mensch" ^ welt.weltArray[x][y+1].getName() == "Mensch" ^ welt.weltArray[x+1][y].getName() == "Mensch" ^ welt.weltArray[x-1][y].getName() == "Mensch")
-                                         //villagerText();
-        //                    vorhanden = true;
-        //}
         if(pRichtung =="oben" && welt.weltArray[x][y-1].getName() != "Wand")
                             vorhanden = false;
        else if(pRichtung =="unten" && welt.weltArray[x][y+1].getName() != "Wand")
@@ -189,40 +177,66 @@ public class Spiel
                             vorhanden = false;
        else if(pRichtung =="links" && welt.weltArray[x-1][y].getName() != "Wand")
                             vorhanden = false;
-       else if(welt.weltArray[x][y-1].getName() == "Mensch" ^ welt.weltArray[x][y+1].getName() == "Mensch" ^ welt.weltArray[x+1][y].getName() == "Mensch" ^ welt.weltArray[x-1][y].getName() == "Mensch")
-                                         //villagerText();
+       if(welt.weltArray[x][y-1].getTyp() == "Dorfbewohner" ^ welt.weltArray[x][y+1].getTyp() == "Dorfbewohner" ^ welt.weltArray[x+1][y].getTyp() == "Dorfbewohner" ^ welt.weltArray[x-1][y].getTyp() == "Dorfbewohner"){     
                             vorhanden = true;
-       if(welt.weltArray[x][y-1].getTyp() == "Monster")kampf.kaempfen("oben",welt.weltArray,held);
-       else if(welt.weltArray[x][y+1].getTyp() == "Monster")kampf.kaempfen("unten",welt.weltArray,held);
-       else if(welt.weltArray[x+1][y].getTyp() == "Monster")kampf.kaempfen("rechts",welt.weltArray,held);
-       else if(welt.weltArray[x-1][y].getTyp() == "Monster")kampf.kaempfen("links",welt.weltArray,held);
-       
+        }               
+       if(welt.weltArray[x][y-1].getTyp() == "Monster"){
+           kampf.kaempfen("oben",welt.weltArray,held);
+           if(welt.weltArray[x][y-1].getTyp() == "Monster")
+                            welt.weltArray[x][y-1] = new Weg(x,y);
+       }
+       else if(welt.weltArray[x][y+1].getTyp() == "Monster"){
+           kampf.kaempfen("unten",welt.weltArray,held);
+           if(welt.weltArray[x][y+1].getTyp() == "Monster")
+                            welt.weltArray[x][y-1] = new Weg(x,y);
+       }
+       else if(welt.weltArray[x+1][y].getTyp() == "Monster"){
+           kampf.kaempfen("rechts",welt.weltArray,held);
+           if(welt.weltArray[x+1][y].getTyp() == "Monster")
+                            welt.weltArray[x][y-1] = new Weg(x,y);
+       }
+       else if(welt.weltArray[x-1][y].getTyp() == "Monster"){
+           kampf.kaempfen("links",welt.weltArray,held);
+           if(welt.weltArray[x-1][y].getTyp() == "Monster")
+                            welt.weltArray[x][y-1] = new Weg(x,y);
+        }
+       if(held.handBesetzt()){
+       if(pRichtung =="oben" && welt.weltArray[x][y-1].getTyp() == "Fluss" && held.getHand().getTyp()=="Boot"){
+                            System.out.println("Du kannst auf dem Wasser Schwimmen, da du ein boot hast");
+                            vorhanden = false;}
+       else if(pRichtung =="unten" && welt.weltArray[x][y+1].getTyp() == "Fluss" && held.getHand().getTyp()=="Boot"){
+                            System.out.println("Du kannst auf dem Wasser Schwimmen, da du ein boot hast");
+                            vorhanden = false;}
+       else if(pRichtung =="rechts" && welt.weltArray[x+1][y].getTyp() == "Fluss" && held.getHand().getTyp()=="Boot"){
+                            System.out.println("Du kannst auf dem Wasser Schwimmen, da du ein boot hast");
+                            vorhanden = false;}
+       else if(pRichtung =="links" && welt.weltArray[x-1][y].getTyp() == "Fluss" && held.getHand().getTyp()=="Boot"){
+                            System.out.println("Du kannst auf dem Wasser Schwimmen, da du ein boot hast");
+                            vorhanden = false;}}
        return vorhanden;
     }
     private void wandDa(String pRichtung){
         int x=held.getX();
         int y=held.getY();
-        if(pRichtung =="oben")System.out.println("Du bist auf eine "+welt.weltArray[x][y-1].getTyp()+" gestoßen!");
-        else if(pRichtung =="unten")System.out.println("Du bist auf eine "+welt.weltArray[x][y+1].getTyp()+" gestoßen!");
-        else if(pRichtung =="links")System.out.println("Du bist auf eine "+welt.weltArray[x-1][y].getTyp()+" gestoßen!");
-        else if(pRichtung =="rechts")System.out.println("Du bist auf eine "+welt.weltArray[x+1][y-1].getTyp()+" gestoßen!");
         
+        if(pRichtung =="oben")System.out.println("Du bist auf eine "+welt.weltArray[x][y-1].getTyp()+" gestoßen und kannst nicht weitergehen!");
+        else if(pRichtung =="unten")System.out.println("Du bist auf eine "+welt.weltArray[x][y+1].getTyp()+" gestoßen und kannst nicht weitergehen!");
+        else if(pRichtung =="links")System.out.println("Du bist auf eine "+welt.weltArray[x-1][y].getTyp()+" gestoßen und kannst nicht weitergehen!");
+        else if(pRichtung =="rechts")System.out.println("Du bist auf eine "+welt.weltArray[x+1][y-1].getTyp()+" gestoßen und kannst nicht weitergehen!");
         
-      
-    }
-    private boolean itemVorhanden(int pX,int pY){
-        boolean ergebniss = false;
-        int x=pX;
-        int y=pY;
-        
-        switch(welt.weltArray[x][y].getName()){
-            case "Schwert":ergebniss = true;
-                           break;
-            default:       ergebniss = false;
-                           break;
+        if(welt.weltArray[x][y-1].getTyp() == "Dorfbewohner" ^ welt.weltArray[x][y+1].getTyp() == "Dorfbewohner" ^ welt.weltArray[x+1][y].getTyp() == "Dorfbewohner" ^ welt.weltArray[x-1][y].getTyp() == "Dorfbewohner"){
+            try
+            {
+                Thread.sleep(1700);
+            }
+            catch(InterruptedException ex)
+            {
+                Thread.currentThread().interrupt();
+            }     
+            villagerText();
         }
-        return ergebniss;
     }
+    
     private void itemAktion(){
         int x=held.getX();
         int y=held.getY();
@@ -236,16 +250,15 @@ public class Spiel
         held.setInventar(held.getInventarNaechsterSlot(),welt.weltArray[x][y]);
         welt.weltArray[x][y] = new Weg(x,y);
     }
-    
     private void itemAbgeben(int pIndex){
         int x=held.getX();
         int y=held.getY();
         Gegenstand container;
         String typ;
-        if(!itemVorhanden(x,y)){
+        if(!welt.itemVorhanden(x,y)){
             container = held.inventar[pIndex];
             switch(container.getName()){
-                case "Schwert":welt.weltArray[x][y] = new Schwert(x,y,"Schwert");
+                case "Schwert":welt.weltArray[x][y] = new Schwert(x,y,"Schwert",container.getSchadenspunkte());
                                System.out.println("Sie haben ein Schwert an die stelle (" + held.getX() +","+ held.getY() +") abgelegt");
                                 break;
                 default:    System.out.println("Es ist ein Fehler aufgetreten!");
@@ -255,5 +268,54 @@ public class Spiel
         }else{
             System.out.println("Hier liegt bereits ein item!");
         }
+    }
+    private void villagerText(){
+       
+       switch(villagerNummer){
+            case 1:     System.out.print('\u000C');
+                        System.out.println("Ich bin der Erste Villager und werde dir deine Aufgabe erzählen. Dein Bruder ist plötzlich verschwunden und er braucht deine Hilfe!");
+                        System.out.println("Er zählt auf dich und du musst dein bestes geben um ihn zu retten. ");
+                        System.out.println("Wenn du weiter in die Richtung gehst in die du gerade unterwegs warst, wirst du deine erste Waffen finden. Jedoch musst du stehts aufpassen.");
+                        System.out.println("Hier in der Gegend lauern im Moment sehr viele Monster herum. Wenn du pech hast wirst du auf welche treffen. Nimm deshalb immer eine deiner Waffen in deine Hand.");
+                        System.out.println("Wie das geht kannst du mit ,hilfe, nachgucken");
+                        break;
+            case 2:     System.out.print('\u000C');
+                        System.out.println("Ich bin der Erste v");
+                        break;
+            case 3:     System.out.print('\u000C');
+                        System.out.println("Ich bin der Erste v");
+                        break;
+            case 4:     System.out.print('\u000C');
+                        System.out.println("Ich bin der Erste v");
+                        break;
+            case 5:     System.out.print('\u000C');
+                        System.out.println("Ich bin der Erste v");
+                        break;
+            case 6:     System.out.print('\u000C');
+                        System.out.println("Ich bin der Erste v");
+                        break;
+            default:    break;
+        }
+        try
+            {
+                Thread.sleep(10000);
+            }
+            catch(InterruptedException ex)
+            {
+                Thread.currentThread().interrupt();
+            }     
+            
+        
+        System.out.println("Nun erfülle deine Aufgabe für einen weiteren Hinweis!");
+        if(welt.weltArray[held.getX()][held.getY()-1].getTyp()=="Dorfbewohner"){
+            welt.weltArray[held.getX()][held.getY()-1] = new Weg(held.getX(),held.getY()-1);
+        }else if(welt.weltArray[held.getX()][held.getY()+1].getTyp()=="Dorfbewohner"){
+            welt.weltArray[held.getX()][held.getY()+1] = new Weg(held.getX(),held.getY()+1);
+        }else if(welt.weltArray[held.getX()+1][held.getY()].getTyp()=="Dorfbewohner"){
+            welt.weltArray[held.getX()+1][held.getY()] = new Weg(held.getX()+1,held.getY());
+        }else if(welt.weltArray[held.getX()-1][held.getY()].getTyp()=="Dorfbewohner"){
+            welt.weltArray[held.getX()-1][held.getY()] = new Weg(held.getX()-1,held.getY());
+        }
+        villagerNummer++;
     }
 }

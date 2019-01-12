@@ -10,9 +10,9 @@ public class Schwert extends Gegenstand
     // Attribute
     
     // Konstruktor
-    public Schwert(int pAnfangsXWert,int pAnfangsYWert,String pTyp)
+    public Schwert(int pAnfangsXWert,int pAnfangsYWert,String pTyp,int pSchadenspunkte)
     {   
-        super(pAnfangsXWert,pAnfangsYWert,"Schwert","Schwert");
+        super(pAnfangsXWert,pAnfangsYWert,"Schwert","Schwert",pSchadenspunkte);
 
     }
 

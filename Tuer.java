@@ -11,7 +11,7 @@ public class Tuer extends Gegenstand
     // Konstruktor
     public Tuer(int pAnfangsXWert,int pAnfangsYWert)
     {   
-        super(pAnfangsXWert,pAnfangsYWert,"Tür","Tür");
+        super(pAnfangsXWert,pAnfangsYWert,"Tür","Tür",0);
 
     }
 
