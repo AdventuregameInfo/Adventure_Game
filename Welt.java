@@ -322,16 +322,15 @@ public class Welt
          weltArray[22][42] = new Wand(22,42,"Fluss");
          weltArray[22][43] = new Wand(22,43,"Fluss");
          //x=24
-         weltArray[23][1] = new Wand(23,1,"Fles");
+         weltArray[23][1] = new Wand(23,1,"Fels");
          weltArray[23][22] = new Wand(23,22,"Basismauer");
          weltArray[23][26] = new Wand(23,26,"Basismauer");
          //x=25
          weltArray[24][1] = new Wand(24,1,"Fels");
          weltArray[24][21] = new Mensch(24,21,"Männlich","Dorfbewohner",0);
-         weltArray[24][22] = new Mensch(24,22,"Männlich","Monster",10);
-         weltArray[24][23] = new Boot(24,23);
+         weltArray[24][18] = new Mensch(24,18,"Männlich","Monster",10);
          //weltArray[24][22] = new Tuer(24,22);
-         weltArray[24][17] = new Schwert(24,22,"Schwert",15);
+         weltArray[24][19] = new Schwert(24,19,"Schwert",15);
          weltArray[24][26] = new Wand(24,26,"Basismauer");
          weltArray[24][41] = new Wand(24,41,"Fluss");
          weltArray[24][42] = new Wand(24,42,"Fluss");
@@ -443,6 +442,7 @@ public class Welt
                weltArray[39][3]= new Wand(39,3,"Fels");
                weltArray[39][7]= new Wand(39,7,"Fels");
                weltArray[39][8]= new Wand(39,8,"Fels");
+               weltArray[39][33]=new Mensch(39,33,"Männlich","Dorfbewohner",0);
                
                weltArray[38][0]= new Wand(38,0,"Fels");
                weltArray[38][2]= new Wand(38,2,"Fels");

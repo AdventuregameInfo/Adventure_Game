@@ -277,10 +277,10 @@ public class Spiel
                         System.out.println("Er zählt auf dich und du musst dein bestes geben um ihn zu retten. ");
                         System.out.println("Wenn du weiter in die Richtung gehst in die du gerade unterwegs warst, wirst du deine erste Waffen finden. Jedoch musst du stehts aufpassen.");
                         System.out.println("Hier in der Gegend lauern im Moment sehr viele Monster herum. Wenn du pech hast wirst du auf welche treffen. Nimm deshalb immer eine deiner Waffen in deine Hand.");
-                        System.out.println("Wie das geht kannst du mit ,hilfe, nachgucken");
+                        System.out.println("Wie das geht kannst du mit ,hilfe, nachgucken. Nachdem du die Waffe aufgehoben hast musst du nach süd-osten.");
                         break;
             case 2:     System.out.print('\u000C');
-                        System.out.println("Ich bin der Erste v");
+                        System.out.println("Ich bin der zweite Villager gehe nach süden und suche das Boot um jederzeit über Wasser gehe zu können.\n"+"Nimm das Boot in die Hand um die fähigkeiten auszuüben.");
                         break;
             case 3:     System.out.print('\u000C');
                         System.out.println("Ich bin der Erste v");
